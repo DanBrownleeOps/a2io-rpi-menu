@@ -3,7 +3,7 @@
 # It makes use of the Ciderpress mdc command to get the volume label of the disk images.
 # https://github.com/fadden/ciderpress/tree/master/linux
 # Get a list of disk images in /home/pi/disks folder
-ls -1 /home/pi/a2io-rpi-menu/disks/VOL* | xargs -n 1 basename > /home/pi/Apple2-IO-RPi/RaspberryPi/driveimage/disklist.txt
+ls -1 /home/pi/a2io-rpi-menu/disks/*.po | xargs -n 1 basename > /home/pi/Apple2-IO-RPi/RaspberryPi/driveimage/disklist.txt
 # create array of these filenames
 readarray -t a < /home/pi/Apple2-IO-RPi/RaspberryPi/driveimage/disklist.txt
 ITER=0
@@ -33,7 +33,7 @@ cat > /home/pi/Apple2-IO-RPi/RaspberryPi/driveimage/Startup.bas <<EOF
 260 DATA "${a[15]}", "${a[16]}", "${a[17]}", "${a[18]}", "${a[19]}"
 280 REM SET THESE TO PRODOS UNLESS YOU KNOW BETTER
 300 DATA "PRODOS", "LAUNCHER.SYSTEM", "PRODOS", "PRODOS", "PRODOS"
-320 DATA "PRODOS", "PRODOS", "PRODOS", "HELLO", "BITSY.BOOT"
+320 DATA "PRODOS", "PRODOS", "PRODOS", "PRODOS", "PRODOS"
 340 DATA "PRODOS", "PRODOS", "PRODOS", "PRODOS", "PRODOS"
 360 DATA "PRODOS", "PRODOS", "PRODOS", "PRODOS", "PRODOS"
 380 REM THESE ARE THE VOLUME NAMES FOR PRETTIER OUTPUT ON THE MENU
@@ -59,17 +59,20 @@ cat > /home/pi/Apple2-IO-RPi/RaspberryPi/driveimage/Startup.bas <<EOF
 708 PRINT VN\$ (VL - 2)
 710 NORMAL
 714 VTAB 22
-720 PRINT "Your choice: "; : GET CH\$
+720 PRINT "Use up/down arrow keys or ESC to quit: "; : GET CH\$
 721 HTAB 1
 722 IF ASC (CH\$) = 11 THEN VTAB VL : PRINT VN\$ (VL - 2) : VL = VL - 1: IF VL < 2 THEN VL = 2
 724 IF ASC (CH\$) = 10 THEN VTAB VL : PRINT VN\$ (VL - 2) : VL = VL + 1: IF VL > 22 THEN VL = 22
 726 IF ASC (CH\$) = 13 THEN SD = VL - 2 : GOTO 760
+728 IF ASC (CH\$) = 27 THEN HOME : END
 734 GOTO 704
 740 SD = VAL ( C\$ ) - 1
 760 REM LOAD THE SELECTED IMAGE INTO DRIVE TWO AND LOAD AND RUN
 780 PRINT CHR\$ (4)"-rpi.command"
+785 PRINT "Loading selected disk: /home/pi/a2io-rpi-menu/disks/" + DF\$(SD)
 800 PRINT CHR\$ (4)"rpi a2drive 2 load /home/pi/a2io-rpi-menu/disks/" + DF\$(SD)
 820 PRINT CHR\$ (4)"PREFIX,S7,D2"
+830 PRINT "ProDos loading image: " + BF\$(SD)
 840 PRINT CHR\$ (4)"-" + BF\$(SD)
 860 END
 EOF
