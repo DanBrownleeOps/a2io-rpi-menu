@@ -1,0 +1,16 @@
+[Unit]
+Description=Apple2-IO-RPi Driver (Pico edition)
+
+[Service]
+#Added ExecStartPre so we get a the disk menu
+ExecStartPre=/home/pi/a2io-rpi-menu/disklist.sh
+ExecStart=/home/pi/Apple2-IO-RPi/RaspberryPi/apple2driver/apple2driver -cdc=true 
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=apple2driver
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/Apple2-IO-RPi/RaspberryPi/apple2driver
+
+[Install]
+WantedBy=basic.target
