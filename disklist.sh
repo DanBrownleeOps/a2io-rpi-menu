@@ -22,6 +22,8 @@ cat > /home/pi/Apple2-IO-RPi/RaspberryPi/driveimage/Startup.bas <<EOF
 100 REM Author: Dan Brownlee
 101 REM https://github.com/DanBrownleeOps/A2IO-RPI-Menu
 102 REM Present list of disks to boot from Apple2-IO-RPi Linux server 
+104 PRINT CHR\$ (4)"-clock.driver"
+106 PRINT CHR\$ (4)"-rpi.command"
 110 HOME
 120 DIM VN\$(20)
 140 DIM BF\$(20)
@@ -68,7 +70,7 @@ cat > /home/pi/Apple2-IO-RPi/RaspberryPi/driveimage/Startup.bas <<EOF
 734 GOTO 704
 740 SD = VAL ( C\$ ) - 1
 760 REM LOAD THE SELECTED IMAGE INTO DRIVE TWO AND LOAD AND RUN
-780 PRINT CHR\$ (4)"-rpi.command"
+780 REM PRINT CHR\$ (4)"-rpi.command"
 785 PRINT "Loading selected disk: /home/pi/a2io-rpi-menu/disks/" + DF\$(SD)
 800 PRINT CHR\$ (4)"rpi a2drive 2 load /home/pi/a2io-rpi-menu/disks/" + DF\$(SD)
 820 PRINT CHR\$ (4)"PREFIX,S7,D2"
