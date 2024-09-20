@@ -61,20 +61,23 @@ cat > /home/pi/Apple2-IO-RPi/RaspberryPi/driveimage/Startup.bas <<EOF
 708 PRINT VN\$ (VL - 2)
 710 NORMAL
 714 VTAB 22
-720 PRINT "Use up/down arrow keys or ESC to quit: "; : GET CH\$
-721 HTAB 1
-722 IF ASC (CH\$) = 11 THEN VTAB VL : PRINT VN\$ (VL - 2) : VL = VL - 1: IF VL < 2 THEN VL = 2
-724 IF ASC (CH\$) = 10 THEN VTAB VL : PRINT VN\$ (VL - 2) : VL = VL + 1: IF VL > 22 THEN VL = 22
-726 IF ASC (CH\$) = 13 THEN SD = VL - 2 : GOTO 760
-728 IF ASC (CH\$) = 27 THEN HOME : END
-734 GOTO 704
-740 SD = VAL ( C\$ ) - 1
-760 REM LOAD THE SELECTED IMAGE INTO DRIVE TWO AND LOAD AND RUN
-780 REM PRINT CHR\$ (4)"-rpi.command"
-785 PRINT "Loading selected disk: /home/pi/a2io-rpi-menu/disks/" + DF\$(SD)
-800 PRINT CHR\$ (4)"rpi a2drive 2 load /home/pi/a2io-rpi-menu/disks/" + DF\$(SD)
-820 PRINT CHR\$ (4)"PREFIX,S7,D2"
-830 PRINT "ProDos loading image: " + BF\$(SD)
-840 PRINT CHR\$ (4)"-" + BF\$(SD)
-860 END
+720 PRINT "Use up/down arrow keys or ESC to quit or  "
+722 PRINT "OA-F, firmware. OA-D, A2IO Default. :"; : GET CH\$
+730 HTAB 1
+740 IF ASC (CH\$) = 11 THEN VTAB VL : PRINT VN\$ (VL - 2) : VL = VL - 1: IF VL < 2 THEN VL = 2
+750 IF ASC (CH\$) = 10 THEN VTAB VL : PRINT VN\$ (VL - 2) : VL = VL + 1: IF VL > 22 THEN VL = 22
+745 IF ASC (CH\$) = 100 OR ASC (CH\$) = 68 THEN DF\$(SD) = "DEFAULT.HDV" : GOTO 820
+747 IF ASC (CH\$) = 102 OR ASC (CH\$) = 70 THEN DF\$(SD) = "FIRMWARE.HDV" : GOTO 820
+760 IF ASC (CH\$) = 13 THEN SD = VL - 2 : GOTO 820
+770 IF ASC (CH\$) = 27 THEN HOME : END
+780 GOTO 704
+790 SD = VAL ( C\$ ) - 1
+800 REM LOAD THE SELECTED IMAGE INTO DRIVE TWO AND LOAD AND RUN
+810 REM PRINT CHR\$ (4)"-rpi.command"
+820 PRINT "Loading selected disk: /home/pi/a2io-rpi-menu/disks/" + DF\$(SD)
+830 PRINT CHR\$ (4)"rpi a2drive 2 load /home/pi/a2io-rpi-menu/disks/" + DF\$(SD)
+840 PRINT CHR\$ (4)"PREFIX,S7,D2"
+850 PRINT "ProDos loading image: " + BF\$(SD)
+860 PRINT CHR\$ (4)"-" + BF\$(SD)
+870 END
 EOF

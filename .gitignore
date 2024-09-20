@@ -1,2 +1,4 @@
 disks/*.po
 disks/*.po.bak
+disks/*.HDV
+disks/*.hdv
